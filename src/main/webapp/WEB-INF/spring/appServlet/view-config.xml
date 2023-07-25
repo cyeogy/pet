@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+		
+		<view-controller path="/menu/test.do" view-name="test"/>
+		
+		<view-controller path="/menu/login.do" view-name="login"/>
+		<view-controller path="/menu/register.do" view-name="register"/>
+		<view-controller path="/menu/review/popup.do" view-name="review/popup"/>
+		<view-controller path="/menu/admin/popup.do" view-name="admin/popup"/>
+		
+		<view-controller path="/menu/service/care.do" view-name="service/care"/>
+		<view-controller path="/menu/service/walk.do" view-name="service/walk"/>
+		<view-controller path="/menu/service/beauty.do" view-name="service/beauty"/>
+		
+		<view-controller path="/menu/review.do" view-name="review"/>
+		<view-controller path="/menu/review/write.do" view-name="review/write"/>
+		<view-controller path="/menu/review/read.do" view-name="review/read"/>
+		<view-controller path="/menu/review/update.do" view-name="review/update"/>
+		
+		<view-controller path="/menu/mypage/admin.do" view-name="mypage/admin"/>
+		<view-controller path="/menu/mypage/pet.do" view-name="mypage/pet"/>
+		<view-controller path="/menu/mypage/pet_update.do" view-name="mypage/pet_update"/>
+		<view-controller path="/menu/mypage/pet_register.do" view-name="mypage/pet_register"/>
+		
+		<view-controller path="/menu/mypage/sitter.do" view-name="mypage/sitter"/>
+		<view-controller path="/menu/mypage/sitter_update.do" view-name="mypage/sitter_update"/>
+		<view-controller path="/menu/mypage/user.do" view-name="mypage/user"/>
+		<view-controller path="/menu/mypage/user_update.do" view-name="mypage/user_update"/>
+		
+ 		<view-controller path="/menu/reserve/resv1_mb.do" view-name="resv/resv_1"/>	
+		<view-controller path="/menu/reserve/resv2_mb.do" view-name="resv/resv_2"/> 
+		<view-controller path="/menu/reserve/resv3_mb.do" view-name="resv/resv_3"/>
+		<view-controller path="/menu/reserve/resvhistory_mb_list.do" view-name="resv/resvmb_list"/>
+		<view-controller path="/menu/reserve/resvhistory_mb_read.do" view-name="resv/resvmb_read"/>
+		<view-controller path="/menu/reserve/resvhistory_st_list.do" view-name="resv/resvst_list"/>
+		<view-controller path="/menu/reserve/resvhistory_st_read.do" view-name="resv/resvst_read"/>
+		
+</beans:beans>

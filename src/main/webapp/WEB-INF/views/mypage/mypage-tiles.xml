@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">	
+<tiles-definitions>
+
+	<definition name="mypage/admin" extends="main">
+		<put-attribute name="content" value="/WEB-INF/views/mypage/admin.jsp" />
+	</definition>
+	
+	<definition name="mypage/pet" extends="main">
+		<put-attribute name="content" value="/WEB-INF/views/mypage/pet.jsp" />
+	</definition>
+	<definition name="mypage/pet_update" extends="main">
+		<put-attribute name="content" value="/WEB-INF/views/mypage/pet_update.jsp" />
+	</definition>
+	<definition name="mypage/pet_register" extends="main">
+		<put-attribute name="content" value="/WEB-INF/views/mypage/pet_register.jsp" />
+	</definition>
+	
+	<definition name="mypage/sitter" extends="main">
+		<put-attribute name="content" value="/WEB-INF/views/mypage/sitter.jsp" />
+	</definition>
+	<definition name="mypage/sitter_update" extends="main">
+		<put-attribute name="content" value="/WEB-INF/views/mypage/sitter_update.jsp" />
+	</definition>
+	
+	<definition name="mypage/user" extends="main">
+		<put-attribute name="content" value="/WEB-INF/views/mypage/user.jsp" />
+	</definition>
+	<definition name="mypage/user_update" extends="main">
+		<put-attribute name="content" value="/WEB-INF/views/mypage/user_update.jsp" />
+	</definition>
+	
+</tiles-definitions>

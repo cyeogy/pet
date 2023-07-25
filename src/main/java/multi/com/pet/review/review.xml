@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mutli.com.pet.review">
+	<!-- <insert id="insert" parameterType="review">
+		INSERT into review (
+			review_no, member_id, write_date_rv, review, review_rate, review_img, resv_no)
+		VALUES (
+			review_seq.nextval,	#{member_id}, sysdate, #{review}, #{review_rate}, #{review_img}, #{resv_no})
+	</insert> -->
+	<insert id="insert" parameterType="review">
+		INSERT into review (
+			review_no, member_id, write_date_rv, review, review_rate, review_img, resv_no)
+		VALUES (
+			#{resv_no},	#{member_id}, sysdate, #{review}, #{review_rate}, #{review_img}, #{resv_no})
+	</insert>
+
+	<select id="read_detail_ajax" parameterType="review" resultType="review">
+		SELECT r.*, p.pet_photo, m.member_addr1
+		FROM review r, member_info m, pet_info p
+		WHERE m.member_id = r.member_id
+          AND m.member_id = p.member_id
+		  AND review_no = (SELECT data.review_no_prev
+						   FROM (SELECT to_number(r.review_no) no,
+						  	     LAG(r.review_no) over(order by to_number(r.review_no)) AS review_no_prev,
+							     LEAD(r.review_no) over(order by to_number(r.review_no)) AS review_no_next
+							     FROM review r
+								 WHERE r.review_no in (SELECT review_no FROM review)
+						   ORDER by to_number(r.review_no) ASC) data
+						   WHERE data.no = #{review.review_no}) AND ROWNUM = 1
+	</select>
+	
+	<select id="read_detail_ajax_next" parameterType="review" resultType="review">
+		SELECT r.*, p.pet_photo, m.member_addr1
+		FROM review r, member_info m, pet_info p
+		WHERE m.member_id = r.member_id
+          AND m.member_id = p.member_id
+		  AND review_no = (SELECT data.review_no_next
+						   FROM (SELECT to_number(r.review_no) no,
+						  	     LAG(r.review_no) over(order by to_number(r.review_no)) AS review_no_prev,
+							     LEAD(r.review_no) over(order by to_number(r.review_no)) AS review_no_next
+							     FROM review r
+								 WHERE r.review_no in (SELECT review_no FROM review)
+						   ORDER by to_number(r.review_no) ASC) data
+						   WHERE data.no = #{review.review_no}) AND ROWNUM = 1
+	</select>
+
+<!-- 	<select id="read" resultType="review">
+		SELECT r.*, p.pet_photo, m.member_addr1
+		FROM review r, pet_info p, resv_history h, member_info m
+		WHERE r.resv_no = h.resv_no
+			AND SUBSTR(h.pet_idlist, 0, INSTR(h.pet_idlist, ',', 1) - 1) = p.pet_id
+			AND m.member_id = r.member_id
+		ORDER BY r.review_no + 0 DESC
+	</select> -->
+		<select id="read" resultType="review">
+		SELECT r.*, p.pet_photo, m.member_addr1
+		FROM review r, pet_info p, resv_history h, member_info m
+		WHERE r.resv_no = h.resv_no
+			AND (SUBSTR(h.pet_idlist, 0, INSTR(h.pet_idlist, ',', 1) - 1) = p.pet_id 
+					OR	h.pet_idlist = p.pet_id)
+			AND m.member_id = r.member_id
+		ORDER BY r.write_date_rv  DESC
+	</select>
+
+	<!-- 상세 보기, 수정 페이지 같이 사용 -->
+	<select id="read_detail" resultType="review" parameterType="String">
+		SELECT r.*, m.member_addr1, p.pet_photo, h.sitter_id
+		FROM member_info m, review r, pet_info p, resv_history h
+		WHERE m.member_id = r.member_id
+		  AND h.resv_no = r.resv_no
+		  AND m.member_id = p.member_id
+		  AND r.review_no = #{review_no}
+		  AND ROWNUM = 1
+	</select>
+
+	<delete id="delete" parameterType="review">
+		DELETE from review
+		WHERE review_no = #{review_no}
+	</delete>
+
+	<update id="update" parameterType="review">
+		UPDATE review
+		SET	review = #{review}, review_rate=#{review_rate}, modify_date_rv=sysdate, review_img=#{review_img}
+		WHERE review_no = #{review_no}
+	</update>
+	
+	<!-- 추가함 BY 오승영 -->
+	<select id="review_no_sitter" parameterType="String" resultType="review">
+		SELECT r.review_no
+		FROM review r, resv_history h
+		WHERE r.resv_no = h.resv_no
+		  AND h.sitter_id = #{sitter_id}
+		  AND ROWNUM = 1
+	</select>
+
+</mapper>

@@ -1,0 +1,532 @@
+
+#DB테이블
+
+
+create table pet_info(
+    pet_id varchar2(15) primary key,
+    member_id varchar2(15),
+    pet_name varchar2(15),
+    pet_gender char(1),
+	pet_code varchar2(15),
+	pet_kind varchar2(15),
+	pet_birthdate date,
+	pet_weight number,
+	pet_size number,
+	neuter char(1),
+	animalhospital_name varchar2(20),
+	animalhospital_addr varchar2(20),
+	pet_photo varchar2(30),
+	pet_note varchar2(200),
+	pet_number char(1)
+);
+
+create table member_info(
+    member_id varchar2(15) primary key,
+    member_pass varchar2(15),
+    member_name varchar2(15),
+    member_gender char(1),
+    member_email varchar2(15),
+    member_phone varchar2(15),
+    member_addr1 varchar2(15),
+    member_addr2 varchar2(15),
+    member_photo varchar2(30),
+    member_startdate date,
+    member_code char(1),
+    member_statusid char(1),
+    member_enddate date
+);
+
+create table review(
+    review_no varchar2(15) primary key,
+    member_id varchar2(15),
+    write_date_rv date,
+    modify_date_rv date,
+    review varchar2(200),
+    resv_no varchar2(15),
+    review_file varchar2(30),
+    review_rate number(5)
+);
+
+
+create table review_reply(
+    reply_no varchar2(15) primary key,
+    review_no varchar2(15),
+    sitter_id varchar2(15),
+    reply varchar2(100),
+    write_date_rp date,
+    modify_date_rp date
+);
+
+# 시퀀스
+create sequence review_seq;
+
+# 제약조건
+alter table pet_info
+add constraint pet_info_fk foreign key(member_id) references member_info(member_id);
+
+alter table review_reply
+add constraint review_reply_fk foreign key(review_no) references review(review_no);
+
+alter table resv_history
+add constraint resv_history_fk foreign key(member_id) references job(member_id);
+
+===================================아래 수정본====================================
+
+#이용자테이블
+
+create table member_info(
+	user_type varchar2(3),
+    member_id varchar2(15) primary key,
+    member_pass varchar2(15),
+    member_name varchar2(15),
+    member_gender char(1),
+    member_email varchar2(50),
+    member_phone varchar2(15),
+    member_addr1 varchar2(50),
+    member_addr2 varchar2(50),
+    member_photo varchar2(30),
+    member_code char(1),
+    member_status char(1),    
+    member_startdate date,
+    member_enddate date
+);
+
+
+
+# 이용후기 테이블 (ReviewDTO)
+    create table review(  
+    review_no varchar2(15) primary key,
+    member_id varchar2(15),  
+    write_date_rv date,
+    modify_date_rv date,
+    review varchar2(200),
+    resv_no varchar2(15),
+    review_file varchar2(50),
+    review_rate number(5)
+    )
+    
+# 파일업로드 테이블 (ReviewFileDTO) 
+    create table review_file(
+    review_no varchar2(25) primary key,
+    originalFilename varchar2(25),
+    reviewFileno varchar2(25),
+    storeFilename varchar2(25)
+	);
+
+
+ select m.review_file,m.review,r.*
+ from member_info m, review r
+  where m.member_id = r.member_id;
+
+ select m.member_id,m.member_addr1,r.*
+ from member_info m, review r
+  where m.member_id = r.member_id;
+
+
+
+
+#반려동물테이블
+
+create table pet_info(
+    pet_id varchar2(30) primary key,
+    member_id varchar2(15),
+    pet_name varchar2(15),
+    pet_gender char(1),
+	pet_code varchar2(15),
+	pet_kind varchar2(15),
+	pet_birthdate date,
+	pet_weight number,
+	pet_size number,
+	neuter char(1),
+	animalhospital_name varchar2(32),
+	animalhospital_addr varchar2(32),
+	pet_photo varchar2(50),
+	pet_note varchar2(200),
+	pet_number char(1)
+);
+
+
+ //펫테이블-리뷰테이블  + 펫테이블-파일업로드테이블 조인해서 사진가져오기
+ select r.*,p.pet_photo,
+ from pet_info p, review r,pet_file f
+ where p.pet_id = r.review_no 
+ and f.petphoto_no = p.pet_id
+ 
+ 
+ 
+
+//펫사진 파일 테이블
+  create table pet_file(
+    pet_photo varchar2(25) primary key,
+    originalFilename varchar2(25),
+    storeFilename varchar2(25)
+	);
+
+
+
+# 펫시터 테이블
+create table sitter_info(
+	user_type varchar2(3),
+    sitter_id varchar2(15) primary key,
+    sitter_pass varchar2(15),
+    sitter_name varchar2(15),
+	sitter_code char(1),
+	sitter_gender char(1),
+	sitter_email varchar2(50),
+	sitter_phone varchar2(15),
+	sitter_addr1 varchar2(50),
+	sitter_addr2 varchar2(50),
+	sitter_startdate date,
+	sitter_enddate date,
+	sitter_state char(1),
+	sitter_birthdate date,
+	service_area varchar2(50),
+	sitter_info varchar2(200),
+	valid char(1),
+	small_career VARCHAR2(32),
+	medium_career VARCHAR2(32),
+	large_career VARCHAR2(32),
+	cat_career VARCHAR2(32),
+	sitter_photo VARCHAR2(32),
+	sitter_certificate varchar2(15)
+);
+
+# 예약내역 테이블
+create table resv_history(
+    resv_no varchar2(20) primary key,
+    member_id varchar2(15),
+    pet_id varchar2(30) ,
+    resv_date date,
+    resv_change_date date,
+    resv_state char(1),
+    pay_method varchar2(15),
+    visit_date date,
+    visit_place VARCHAR2(15),
+    service_starttime number(24),
+    service_endtime number(24),
+    service_time number(3),
+    sitter_id varchar2(15),
+    service_note varchar2(100),
+    defulat_service char(1),
+    bath_servie char(1),
+    walk_service char(1),
+    beauty_service char(1),
+    total_price number,
+    match_method varchar2(15),
+    prefer_gender varchar2(15),
+    prefer_size varchar2(15),
+    service_request varchar2(200),
+    visit_method varchar2(15),
+    common_pass varchar2(15),
+    home_pass varchar2(15),
+    direct_meet varchar2(100),
+    parking varchar2(100),
+    supplies_place varchar2(100),
+    cleaning_method varchar2(100),
+    emergency_phone varchar2(15),
+    pet1_reserved char(1),
+    pet2_reserved char(1),
+    pet3_reserved char(1)
+    );
+
+
+#이용후기 테이블
+    create table review(
+    review_no varchar2(15) primary key,
+    member_id varchar2(15),
+    write_date_rv date,
+    modify_date_rv date,
+    review varchar2(200),
+    resv_no varchar2(15),
+    review_file varchar2(50),
+    review_rate number(5)
+);
+
+
+
+#댓글테이블
+	create table review_reply(
+    reply_no varchar2(15) primary key,
+    review_no varchar2(15),
+    sitter_id varchar2(15),
+    reply varchar2(100),
+    write_date_rp date,
+    modify_date_rp date
+);
+
+# 시퀀스
+create sequence review_seq;
+
+# 제약조건
+alter table pet_info
+add constraint pet_info_fk foreign key(member_id) references member_info(member_id);
+
+alter table review_reply
+add constraint review_reply_fk foreign key(review_no) references review(review_no);
+
+alter table resv_history
+add constraint resv_history_fk foreign key(member_id) references job(member_id);
+
+================================================================================================
+# 쿼리문 정리
+insert into pet_info
+	(pet_id, member_id, pet_name,
+	pet_gender, pet_code, pet_kind,
+	pet_birthdate, pet_weight, pet_size,
+	neuter, animalhospital_name, animalhospital_addr,
+	pet_photo, pet_note, pet_number)
+values
+	('test', 'test', '단이',
+	'2', '1', '진돗개',
+	'2014-10-25', 1, 5,
+	'Y', '헬로우동물병원', '연희로178',
+	'tan.png', '단이는 엄청 순해요', '1')
+
+insert into member_info
+	(member_id, member_pass, member_name,
+	member_gender, member_email, code)
+values
+	('test', 'test', '이지은',
+	'2', 'leejieun@naver.com', 'B') → code 를 usertype 으로 변경하고, 'M' 으로 Setting 할 것 
+
+----------  resv_history 에 삽입할 데이터
+insert into resv_history(resv_no) values(01);
+insert into resv_history(resv_no) values(02);
+insert into resv_history(resv_no) values(03);
+insert into resv_history(resv_no) values(04);
+insert into resv_history(resv_no) values(05);
+insert into resv_history(resv_no) values(06);
+insert into resv_history(resv_no) values(07);
+insert into resv_history(resv_no) values(08);
+insert into resv_history(resv_no) values(09);
+
+------- member_info에 삽입할 데이터
+ insert into member_info(member_id,member_addr1,member_photo) values('park','서울시','profile_image1');
+ insert into member_info(member_id,member_addr1,member_photo) values('lee','인천시','profile_image2');
+ insert into member_info(member_id,member_addr1,member_photo) values('ji','수원시','profile_image3');
+ insert into member_info(member_id,member_addr1,member_photo) values('moon','용인시','profile_image4');
+ insert into member_info(member_id,member_addr1,member_photo) values('kang','김포시','profile_image5');
+ insert into member_info(member_id,member_addr1,member_photo) values('kim','이천시','profile_image6');
+ insert into member_info(member_id,member_addr1,member_photo) values('na','부천시','profile_image7');
+ insert into member_info(member_id,member_addr1,member_photo) values('im','화성시','profile_image8');
+ insert into member_info(member_id,member_addr1,member_photo) values('jun','안양시','profile_image9');
+
+------ review 테이블에 삽입할 데이터  
+insert into review(
+REVIEW_NO,
+resv_no ,
+member_id ,
+WRITE_DATE_RV,
+REVIEW,
+REVIEW_RATE
+)
+values
+(
+1,
+01,
+'park',
+'2023-01-07',
+'너무 친절하시고 꼼꼼하셔서 안심이 되었습니다.추운 날 와주시느라 너무 고생하셨고 새해 복 많이 받으세요 ♡♡',
+3
+);
+
+alter table 
+	pet_info 
+modify 
+	(pet_kind VARCHAR2(32));
+alter table 
+	sitter_info 
+add 
+	(code varchar2(3));
+
+insert into 
+	pet_info 
+	(pet_birthdate) 
+values 
+	('2013-10-25')
+where 
+	pet_id = 'admin'
+
+
+UPDATE 
+	member_info 
+SET
+	usertype = 'M'
+WHERE
+	 member_id = 'test'
+	
+ALTER TABLE sitter_info
+RENAME COLUMN code to usertype;
+================================================================================================
+# mapper 쿼리문 정리
+select * from pet_info p, member_info m
+where m.member_id = p.member_id
+
+insert into review(
+REVIEW_NO,
+resv_no ,
+member_id ,
+WRITE_DATE_RV,
+REVIEW,
+REVIEW_RATE
+)
+values
+(
+2,
+02,
+'lee',
+'2023-01-08',
+'오늘도 보리와 함께 즐거운 산책 감사합니다 ^.^ 함께 해줄수 없어 미안하지만 시터님이 항상 잘해주셔서 넘 든든합니다~^^',
+4
+);
+
+
+select p.* 
+from pet_info p, member_info m
+where m.member_id = p.member_id
+and m.member_id = 'admin' and m.member_pass = '1234'
+
+
+insert into review(
+REVIEW_NO,
+resv_no ,
+member_id ,
+WRITE_DATE_RV,
+REVIEW,
+REVIEW_RATE
+)
+values
+(
+3,
+03,
+'ji',
+'2023-01-09',
+'환경정리도 너무 깔끔하게 잘해주시고 아이들 사랑으로 잘돌봐주셔서 감사합니다ㅎㅎ 너무너무 편안한 마음으로 여행 다녀왔습니다 감사합니다',
+5
+);
+
+
+insert into review(
+REVIEW_NO,
+resv_no ,
+member_id ,
+WRITE_DATE_RV,
+REVIEW,
+REVIEW_RATE
+)
+values
+(
+4,
+04,
+'moon',
+'2023-01-10',
+'반려동물을 정말 사랑하는 게 느껴져요~ 웃음과 미소로 대응해주시구 넘 감사합니다! 앞으로도 잘 부탁해요!',
+5
+);
+
+
+insert into review(
+REVIEW_NO,
+resv_no ,
+member_id ,
+WRITE_DATE_RV,
+REVIEW,
+REVIEW_RATE
+)
+values
+(
+5,
+05,
+'kang',
+'2023-01-11',
+'정말 요청드린대로 완벽한 케어였습니다 핸드폰으로 글써서 길게 후기 못남겨 아쉽네요 다음에도 꼭 이분으로 하고싶어요',
+5
+);
+
+
+insert into review(
+REVIEW_NO,
+resv_no ,
+member_id,
+WRITE_DATE_RV,
+REVIEW,
+REVIEW_RATE
+)
+values
+(
+6,
+06,
+'kim',
+'2023-01-12',
+'후기가 늦었네요 아이가 시터님 보고 반가워하는거 보고 안심했어요 항상 꼼꼼하게 챙겨주셔서 감사해요~',
+4
+);
+
+
+insert into review(
+REVIEW_NO,
+resv_no ,
+member_id,
+WRITE_DATE_RV,
+REVIEW,
+REVIEW_RATE
+)
+values
+(
+7,
+07,
+'na',
+'2023-01-13',
+'냥이들 성격 아시고 맞춤 돌봄 해주셔서 항상 감사드려요!!!',
+4
+);
+
+
+insert into review(
+REVIEW_NO,
+resv_no ,
+member_id,
+WRITE_DATE_RV,
+REVIEW,
+REVIEW_RATE
+)
+values
+(
+8,
+08,
+'im',
+'2023-01-14',
+'아이가 낯선 사람을 엄청 무서워해서 아직은 모르겠습니다 아이와 합이 맞아 내일은 꼭 사냥놀이도 해주셨으면 좋겠어요',
+3
+);
+
+
+insert into review(
+REVIEW_NO,
+resv_no,
+member_id,
+WRITE_DATE_RV,
+REVIEW,
+REVIEW_RATE
+)
+values
+(
+9,
+09,
+'jun',
+'2023-01-15',
+'성격 안좋은 강아지인데 안전하게 잘 컨트롤 해주셔서 항상 고마워하고 있습니다^^',
+4
+);
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.5.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<!-- tiles -->
+	<beans:bean id = "tilesConfig" class = "org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+		<beans:property name="definitions">
+			<beans:list>
+				<beans:value>/WEB-INF/**/*-tiles.xml</beans:value>
+			</beans:list>	
+		</beans:property>
+	</beans:bean>
+	<beans:bean id = "tilesViewResolver" class = "org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<beans:property name="viewClass" value = "org.springframework.web.servlet.view.tiles3.TilesView" />
+		<beans:property name="order" value = "1" />
+	</beans:bean>
+	
+	<!-- DataSource 방식: WAS 에 등록된 커넥션풀을 이용해서 작업하는 방식 -->
+	<beans:bean id="ds" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<beans:property name="jndiName" value="jdbc/myspring" />
+		<beans:property name="resourceRef" value="true" />
+	</beans:bean>
+	
+	<!-- Mybatis -->
+	<beans:bean id="template" class="org.springframework.jdbc.core.JdbcTemplate">
+		<beans:constructor-arg ref="ds" />
+	</beans:bean>
+	<beans:bean id="sqlSessionFactory" class = "org.mybatis.spring.SqlSessionFactoryBean">
+		<beans:property name="dataSource" ref ="ds" />
+		<beans:property name="configLocation" value ="/WEB-INF/spring/appServlet/mybatis-config.xml" />
+	</beans:bean>
+	<beans:bean id="sqlSession" class = "org.mybatis.spring.SqlSessionTemplate">
+		<beans:constructor-arg ref = "sqlSessionFactory" />	
+	</beans:bean>
+		
+	<!-- File Upload -->
+	<beans:bean id = "multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="40000000" />
+	</beans:bean>
+	
+	<!-- MongoDB -->
+	<mongo:mongo id="mongods" host="192.168.219.102" port="27017"/>
+	<beans:bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<beans:constructor-arg ref="mongods"/>
+		<beans:constructor-arg name="databaseName" value="sample"/>
+	</beans:bean>
+	<mongo:repositories base-package="spring.data.mongodb.score"/>
+	
+	<!-- interceptor -->
+<!-- 	<interceptors> -->
+<!-- 		<interceptor> -->
+<!-- 			<mapping path = "/**" /> -->
+<!-- 			<exclude-mapping path="/" /> -->
+<!-- 			<exclude-mapping path="/menu/login.do" /> -->
+<!-- 			<exclude-mapping path="/erp/user/login.do" /> -->
+<!-- 			<exclude-mapping path="/erp/sitter/login.do" /> -->
+<!-- 			<exclude-mapping path="/erp/user/register.do" /> -->
+<!-- 			<exclude-mapping path="/erp/member/idCheck.do" /> -->
+<!-- 			<exclude-mapping path="/menu/service/**" /> -->
+<!-- 			<exclude-mapping path="/menu/review.do" /> -->
+<!-- 			<exclude-mapping path="/menu/review/detail.do" /> -->
+<!-- 			<exclude-mapping path="/resources/**" /> -->
+<!-- 			<beans:bean class = "multi.com.pet.etc.LoginInterceptor"/> -->
+<!-- 		</interceptor> -->
+<!-- 	</interceptors> -->
+	
+	<context:component-scan base-package="mutli.com.pet" />
+	<context:component-scan base-package="mutli" />
+	<context:component-scan base-package="multi"/>
+	
+	
+</beans:beans>

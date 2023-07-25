@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">	
+<tiles-definitions>
+
+	<definition name="resv/resv_1" extends="main">
+		<put-attribute name="content" value="/WEB-INF/views/reserve/resv1_mb.jsp" />
+	</definition>
+
+	<definition name="resv/resv_2" extends="main">
+		<put-attribute name="content" value="/WEB-INF/views/reserve/resv2_mb.jsp" />
+	</definition>
+	
+	<definition name="resv/resv_3" extends="main">
+		<put-attribute name="content" value="/WEB-INF/views/reserve/resv3_mb.jsp" />
+	</definition>
+	
+	<definition name="resv/resv_pay" extends="main">
+		<put-attribute name="content" value="/WEB-INF/views/reserve/resv_pay.jsp" />
+	</definition>
+	
+	<definition name="resv/resvmb_list" extends="main">
+		<put-attribute name="content" value="/WEB-INF/views/reserve/resvhistory_mb_list.jsp" />
+	</definition>
+	
+	<definition name="resv/resvmb_read" extends="main">
+		<put-attribute name="content" value="/WEB-INF/views/reserve/resvhistory_mb_read.jsp" />
+	</definition>
+	
+	<definition name="resv/resvst_list" extends="main">
+		<put-attribute name="content" value="/WEB-INF/views/reserve/resvhistory_st_list.jsp" />
+	</definition>
+	
+	<definition name="resv/resvst_read" extends="main">
+		<put-attribute name="content" value="/WEB-INF/views/reserve/resvhistory_st_read.jsp" />
+	</definition>
+	
+
+	
+</tiles-definitions>
+

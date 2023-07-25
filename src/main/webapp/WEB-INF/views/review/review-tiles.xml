@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">	
+<tiles-definitions>
+
+	<definition name="review/read" extends="main">
+		<put-attribute name="content" value="/WEB-INF/views/review/review_detail.jsp" />
+	</definition>
+	
+	<definition name="review/update" extends="main">
+		<put-attribute name="content" value="/WEB-INF/views/review/review_update.jsp" />
+	</definition>
+	
+	<definition name="review/write" extends="main">
+		<put-attribute name="content" value="/WEB-INF/views/review/review_write.jsp" />
+	</definition>
+	
+	<definition name="review" extends="main">
+		<put-attribute name="content" value="/WEB-INF/views/review/review.jsp" />
+	</definition>
+	
+	<definition name="review/update" extends="main">
+		<put-attribute name="content" value="/WEB-INF/views/review/review_update.jsp" />
+	</definition>
+
+</tiles-definitions>
+
+

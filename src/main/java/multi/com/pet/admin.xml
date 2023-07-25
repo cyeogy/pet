@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="mutli.com.pet">
+  
+  <update id="update"  parameterType="Map">
+		update sitter_info
+		set valid=#{valid}
+		where sitter_id=#{id}
+		
+</update>
+
+<select id="adminList" resultType="sitter">
+		select * from sitter_info
+</select>	
+
+<select id="dynamicSearch" resultType="sitter" parameterType="Map">
+		select * from sitter_info
+		<where>
+			
+			<if test="category=='id' and search_val!=''">
+				sitter_id like '%' || #{search_val} || '%'
+			</if>
+			<if test="category=='name' and search_val!=''">
+				sitter_name like '%' || #{search_val} || '%'
+			</if>
+			<if test="category=='email' and search_val!=''">
+				sitter_email like '%' || #{search_val} || '%'
+			</if>
+			<if test="category=='phone' and search_val!=''">
+				sitter_phone like '%' || #{search_val} || '%'
+			</if>
+			<if test="category=='valid' and search_val!=''">
+				valid like '%' || #{search_val} || '%'
+			</if>
+		</where>
+	</select> 
+</mapper>

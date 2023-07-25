@@ -1,0 +1,165 @@
+#이용후기 테이블
+    create table review(
+    review_no varchar2(15) primary key,
+    member_id varchar2(15),
+    write_date_rv date,
+    modify_date_rv date,
+    review varchar2(200),
+    resv_no varchar2(15),
+    review_file varchar2(50),
+    review_rate number(5)
+);
+================================================================================================================================================
+insert into review(
+REVIEW_NO,
+resv_no ,
+member_id ,
+WRITE_DATE_RV,
+REVIEW,
+REVIEW_RATE
+)
+values
+(
+1,
+01,
+'park',
+'2023-01-07',
+'너무 친절하시고 꼼꼼하셔서 안심이 되었습니다.추운 날 와주시느라 너무 고생하셨고 새해 복 많이 받으세요 ♡♡',
+3
+);
+insert into review(
+REVIEW_NO,
+resv_no ,
+member_id ,
+WRITE_DATE_RV,
+REVIEW,
+REVIEW_RATE
+)
+values
+(
+2,
+02,
+'lee',
+'2023-01-08',
+'오늘도 보리와 함께 즐거운 산책 감사합니다 ^.^ 함께 해줄수 없어 미안하지만 시터님이 항상 잘해주셔서 넘 든든합니다~^^',
+4
+);
+insert into review(
+REVIEW_NO,
+resv_no ,
+member_id ,
+WRITE_DATE_RV,
+REVIEW,
+REVIEW_RATE
+)
+values
+(
+3,
+03,
+'ji',
+'2023-01-09',
+'환경정리도 너무 깔끔하게 잘해주시고 아이들 사랑으로 잘돌봐주셔서 감사합니다ㅎㅎ 너무너무 편안한 마음으로 여행 다녀왔습니다 감사합니다',
+5
+);
+insert into review(
+REVIEW_NO,
+resv_no ,
+member_id ,
+WRITE_DATE_RV,
+REVIEW,
+REVIEW_RATE
+)
+values
+(
+4,
+04,
+'moon',
+'2023-01-10',
+'반려동물을 정말 사랑하는 게 느껴져요~ 웃음과 미소로 대응해주시구 넘 감사합니다! 앞으로도 잘 부탁해요!',
+5
+);
+insert into review(
+REVIEW_NO,
+resv_no ,
+member_id ,
+WRITE_DATE_RV,
+REVIEW,
+REVIEW_RATE
+)
+values
+(
+5,
+05,
+'kang',
+'2023-01-11',
+'정말 요청드린대로 완벽한 케어였습니다 핸드폰으로 글써서 길게 후기 못남겨 아쉽네요 다음에도 꼭 이분으로 하고싶어요',
+5
+);
+insert into review(
+REVIEW_NO,
+resv_no ,
+member_id,
+WRITE_DATE_RV,
+REVIEW,
+REVIEW_RATE
+)
+values
+(
+6,
+06,
+'kim',
+'2023-01-12',
+'후기가 늦었네요 아이가 시터님 보고 반가워하는거 보고 안심했어요 항상 꼼꼼하게 챙겨주셔서 감사해요~',
+4
+);
+insert into review(
+REVIEW_NO,
+resv_no ,
+member_id,
+WRITE_DATE_RV,
+REVIEW,
+REVIEW_RATE
+)
+values
+(
+7,
+07,
+'na',
+'2023-01-13',
+'냥이들 성격 아시고 맞춤 돌봄 해주셔서 항상 감사드려요!!!',
+4
+);
+insert into review(
+REVIEW_NO,
+resv_no ,
+member_id,
+WRITE_DATE_RV,
+REVIEW,
+REVIEW_RATE
+)
+values
+(
+8,
+08,
+'im',
+'2023-01-14',
+'아이가 낯선 사람을 엄청 무서워해서 아직은 모르겠습니다 아이와 합이 맞아 내일은 꼭 사냥놀이도 해주셨으면 좋겠어요',
+3
+);
+insert into review(
+REVIEW_NO,
+resv_no,
+member_id,
+WRITE_DATE_RV,
+REVIEW,
+REVIEW_RATE
+)
+values
+(
+9,
+09,
+'jun',
+'2023-01-15',
+'성격 안좋은 강아지인데 안전하게 잘 컨트롤 해주셔서 항상 고마워하고 있습니다^^',
+4
+); 

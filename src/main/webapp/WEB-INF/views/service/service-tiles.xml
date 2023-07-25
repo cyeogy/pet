@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">	
+<tiles-definitions>
+
+	<definition name="service/care" extends="main">
+		<put-attribute name="content" value="/WEB-INF/views/service/care_info.jsp" />
+	</definition>
+	
+	<definition name="service/walk" extends="main">
+		<put-attribute name="content" value="/WEB-INF/views/service/walk_info.jsp" />
+	</definition>
+	
+	<definition name="service/care" extends="main">
+		<put-attribute name="content" value="/WEB-INF/views/service/care_info.jsp" />
+	</definition>
+	
+	<definition name="service/beauty" extends="main">
+		<put-attribute name="content" value="/WEB-INF/views/service/wash_beauty.jsp" />
+	</definition>
+	
+</tiles-definitions>
+

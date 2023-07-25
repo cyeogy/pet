@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mutli.com.pet.erp">
+	<!-- login -->
+	<select id="user_login" parameterType="member" resultType="member">
+		SELECT * from member_info
+		WHERE member_id = #{member_id} and member_pass = #{member_pass}
+	</select>
+	<select id="sitter_login" parameterType="sitter" resultType="sitter">
+		SELECT * from sitter_info
+		WHERE sitter_id = #{sitter_id} and sitter_pass = #{sitter_pass}
+	</select>
+	<!-- login -->
+	
+	<!-- read_member start -->
+	<select id="member_read" parameterType="String" resultType="member">
+		SELECT * 
+		FROM member_info 
+		WHERE member_id = #{member_id}
+	</select>	
+	<!-- read_member end-->
+	
+	<!-- read_sitter start -->
+	<select id="sitter_read" parameterType="String" resultType="sitter">
+		SELECT * 
+		FROM sitter_info
+		WHERE sitter_id = #{sitter_id}
+	</select>	
+
+	<!-- read_sitter end -->
+		
+	<!-- update start -->	
+	<update id="member_update" parameterType="member">
+		UPDATE member_info
+		SET member_gender = #{member_gender}, member_email = #{member_email}, member_phone = #{member_phone}, member_addr1 = #{member_addr1}, member_addr2 = #{member_addr2}, hospital_name = #{hospital_name}, hospital_addr = #{hospital_addr}, member_birthdate = #{member_birthdate}
+		WHERE member_id = #{member_id}
+	</update>
+	
+	<!-- sitter_certificate 추가함 by 여경 -->
+	<update id="sitter_update" parameterType="sitter">
+		UPDATE sitter_info
+		SET sitter_code=#{sitter_code}, sitter_email=#{sitter_email}, sitter_phone=#{sitter_phone}, sitter_addr1=#{sitter_addr1}, sitter_addr2=#{sitter_addr2}, sitter_birthdate=#{sitter_birthdate}, service_area=#{service_area}, sitter_info=#{sitter_info}, sitter_certificate = #{sitter_certificate}, sitter_photo=#{sitter_photo}
+		WHERE sitter_id = #{sitter_id}
+	</update>
+
+	<update id="sitter_certi_update" parameterType="sitter">
+		UPDATE sitter_info
+		SET sitter_certificate = #{sitter_certificate}
+		WHERE sitter_id = #{sitter_id}
+	</update>
+	<!-- update end-->
+	
+	<!-- insert start -->
+	<insert id="member_insert" parameterType="member">
+		INSERT INTO member_info (
+			member_id, member_pass, member_gender, member_name, member_email, member_phone, member_addr1, member_addr2, member_status, member_startdate, user_type, hospital_name, hospital_addr, member_birthdate)
+		VALUES (
+			#{member_id}, #{member_pass}, #{member_gender}, #{member_name}, #{member_email}, #{member_phone}, #{member_addr1}, #{member_addr2}, #{member_status}, sysdate, #{user_type}, #{hospital_name}, #{hospital_addr}, #{member_birthdate}) 
+
+	</insert>
+	<insert id="sitter_insert" parameterType="sitter">
+		INSERT INTO sitter_info (
+			user_type, sitter_id, sitter_name, sitter_pass, sitter_code, sitter_gender, sitter_email, sitter_phone, sitter_addr1, sitter_addr2, sitter_startdate, sitter_status, sitter_birthdate, service_area, sitter_info, sitter_certificate, valid, sitter_photo)
+		VALUES (
+			'S', #{sitter_id}, #{sitter_name}, #{sitter_pass}, #{sitter_code}, #{sitter_gender}, #{sitter_email}, #{sitter_phone}, #{sitter_addr1}, #{sitter_addr2}, sysdate, #{sitter_status}, #{sitter_birthdate}, #{service_area}, #{sitter_info}, #{sitter_certificate}, '0', #{sitter_photo})
+	</insert>
+
+	<!-- insert end -->
+	
+	<!-- delete start -->
+	<delete id="member_delete">
+		DELETE member_info
+		WHERE member_id = #{member_id}
+	</delete>
+	<delete id="sitter_delete">
+	 	DELETE sitter_info
+	 	WHERE sitter_id = #{sitter_id}
+	</delete>
+	<!-- delete end -->
+	
+	<!-- sitter list start -->
+	<select id="sitterList" resultType="sitter">
+		SELECT sitter_name, sitter_certificate, sitter_rate, sitter_photo, (SELECT count(*) FROM resv_history h WHERE h.sitter_id = s.sitter_id) as sitter_resvNum
+		FROM sitter_info s
+	</select>
+	<!-- sitter list end -->
+
+ 
+	<!-- id check -->	
+	<select id="idcheck" parameterType="String" resultType="member">
+		SELECT * from member_info
+		WHERE member_id = #{member_id}
+	</select>
+	<select id="sitteridcheck" parameterType="String" resultType="sitter">
+		SELECT * from sitter_info
+		WHERE sitter_id = #{sitter_id}
+	</select>
+	
+	<!-- 예약 리스트 담기 -->
+	<select id="resvlist" parameterType="String" resultType="resv">
+		SELECT r.*
+		FROM resv_history r, member_info m
+		WHERE r.member_id = m.member_id
+		AND m.member_id = #{member_id} 
+	</select>
+	
+	<select id="sitter_resvlist" parameterType="String" resultType="resv">
+		SELECT * FROM resv_history 
+		WHERE sitter_id = #{sitter_id}		 
+	</select>
+	
+	<select id="sitter_reviewlist" parameterType="String" resultType="resv">
+		SELECT h.resv_no 
+		FROM resv_history h, review r
+		WHERE r.resv_no = h.resv_no  
+		AND h.sitter_id = #{sitter_id}
+	</select>
+	
+	<!-- sitter rate update -->
+	<update id="sitter_rate_update" parameterType="sitter">
+		UPDATE sitter_info
+		SET sitter_rate = #{sitter_rate}
+		WHERE sitter_id = #{sitter_id}
+	</update>
+	
+</mapper>
